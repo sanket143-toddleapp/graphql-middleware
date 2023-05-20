@@ -70,6 +70,7 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
   )[]
 ): GraphQLSchemaWithFragmentReplacements {
   console.time('GM: normalisedMiddlewares')
+  console.log('middlewares', middlewares)
   const normalisedMiddlewares = middlewares.map((middleware) => {
     if (isMiddlewareGenerator(middleware)) {
       return middleware.generate(schema)

@@ -20,6 +20,7 @@ function addMiddlewareToSchema(schema, options, middleware) {
 }
 function applyMiddlewareWithOptions(schema, options, ...middlewares) {
   console.time("GM: normalisedMiddlewares");
+  console.log("middlewares", middlewares);
   const normalisedMiddlewares = middlewares.map((middleware) => {
     if (isMiddlewareGenerator(middleware)) {
       return middleware.generate(schema);
