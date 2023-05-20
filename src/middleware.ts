@@ -105,6 +105,7 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
       },
       { schema, fragmentReplacements: [] },
     )
+  console.log(schemaWithMiddlewareAndFragmentReplacements)
   console.timeEnd('GM: schemaWithMiddlewareAndFragmentReplacements')
 
   const schemaWithMiddleware: GraphQLSchemaWithFragmentReplacements =

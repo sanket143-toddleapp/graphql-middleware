@@ -46,6 +46,7 @@ function applyMiddlewareWithOptions(schema, options, ...middlewares) {
       ]
     };
   }, { schema, fragmentReplacements: [] });
+  console.log(schemaWithMiddlewareAndFragmentReplacements);
   console.timeEnd("GM: schemaWithMiddlewareAndFragmentReplacements");
   const schemaWithMiddleware = schemaWithMiddlewareAndFragmentReplacements.schema;
   schemaWithMiddleware.schema = schemaWithMiddlewareAndFragmentReplacements.schema;
