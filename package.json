@@ -1,7 +1,7 @@
 {
   "name": "graphql-middleware",
   "description": "GraphQL Middleware done right!",
-  "version": "0.0.0-semantic-release",
+  "version": "6.0.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.182",
-    "@types/node":"^18.8.3",
+    "@types/node": "^18.8.3",
     "apollo-server": "^3.10.2",
     "axios": "^0.27.2",
     "bob-esbuild": "^1.3.0",
@@ -59,9 +59,7 @@
     "test": "jest",
     "prepublishOnly": "npm run compile"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "release": {
     "branch": "master"
   },
