@@ -77,29 +77,30 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
     }
   })
 
-  const schemaWithMiddlewareAndFragmentReplacements = normalisedMiddlewares.reduceRight(
-    (
-      {
-        schema: currentSchema,
-        fragmentReplacements: currentFragmentReplacements,
-      },
-      middleware,
-    ) => {
-      const {
-        schema: newSchema,
-        fragmentReplacements: newFragmentReplacements,
-      } = addMiddlewareToSchema(currentSchema, options, middleware)
+  const schemaWithMiddlewareAndFragmentReplacements =
+    normalisedMiddlewares.reduceRight(
+      (
+        {
+          schema: currentSchema,
+          fragmentReplacements: currentFragmentReplacements,
+        },
+        middleware,
+      ) => {
+        const {
+          schema: newSchema,
+          fragmentReplacements: newFragmentReplacements,
+        } = addMiddlewareToSchema(currentSchema, options, middleware)
 
-      return {
-        schema: newSchema,
-        fragmentReplacements: [
-          ...currentFragmentReplacements,
-          ...newFragmentReplacements,
-        ],
-      }
-    },
-    { schema, fragmentReplacements: [] },
-  )
+        return {
+          schema: newSchema,
+          fragmentReplacements: [
+            ...currentFragmentReplacements,
+            ...newFragmentReplacements,
+          ],
+        }
+      },
+      { schema, fragmentReplacements: [] },
+    )
 
   const schemaWithMiddleware: GraphQLSchemaWithFragmentReplacements =
     schemaWithMiddlewareAndFragmentReplacements.schema
@@ -147,7 +148,7 @@ export function applyMiddleware<TSource = any, TContext = any, TArgs = any>(
 export function applyMiddlewareToDeclaredResolvers<
   TSource = any,
   TContext = any,
-  TArgs = any
+  TArgs = any,
 >(
   schema: GraphQLSchema,
   ...middlewares: (
@@ -155,9 +156,13 @@ export function applyMiddlewareToDeclaredResolvers<
     | IMiddlewareGenerator<TSource, TContext, TArgs>
   )[]
 ): GraphQLSchemaWithFragmentReplacements {
-  return applyMiddlewareWithOptions(
+  console.time('applyMiddlewareWithOptions')
+  const result = applyMiddlewareWithOptions(
     schema,
     { onlyDeclaredResolvers: true },
     ...middlewares,
   )
+  console.timeEnd('applyMiddlewareWithOptions')
+
+  return result
 }
