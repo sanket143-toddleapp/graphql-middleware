@@ -23,6 +23,7 @@ function addMiddlewareToSchema(schema$1, options, middleware) {
   return { schema: newSchema, fragmentReplacements };
 }
 function applyMiddlewareWithOptions(schema, options, ...middlewares) {
+  console.time("GM: normalisedMiddlewares");
   const normalisedMiddlewares = middlewares.map((middleware) => {
     if (utils.isMiddlewareGenerator(middleware)) {
       return middleware.generate(schema);
@@ -30,6 +31,8 @@ function applyMiddlewareWithOptions(schema, options, ...middlewares) {
       return middleware;
     }
   });
+  console.timeEnd("GM: normalisedMiddlewares");
+  console.time("GM: schemaWithMiddlewareAndFragmentReplacements");
   const schemaWithMiddlewareAndFragmentReplacements = normalisedMiddlewares.reduceRight(({
     schema: currentSchema,
     fragmentReplacements: currentFragmentReplacements
@@ -46,6 +49,7 @@ function applyMiddlewareWithOptions(schema, options, ...middlewares) {
       ]
     };
   }, { schema, fragmentReplacements: [] });
+  console.timeEnd("GM: schemaWithMiddlewareAndFragmentReplacements");
   const schemaWithMiddleware = schemaWithMiddlewareAndFragmentReplacements.schema;
   schemaWithMiddleware.schema = schemaWithMiddlewareAndFragmentReplacements.schema;
   schemaWithMiddleware.fragmentReplacements = schemaWithMiddlewareAndFragmentReplacements.fragmentReplacements;
@@ -55,6 +59,7 @@ function applyMiddleware(schema, ...middlewares) {
   return applyMiddlewareWithOptions(schema, { onlyDeclaredResolvers: false }, ...middlewares);
 }
 function applyMiddlewareToDeclaredResolvers(schema, ...middlewares) {
+  console.log("GM: applyMiddlewareToDeclaredResolvers");
   console.time("applyMiddlewareWithOptions");
   const result = applyMiddlewareWithOptions(schema, { onlyDeclaredResolvers: true }, ...middlewares);
   console.timeEnd("applyMiddlewareWithOptions");

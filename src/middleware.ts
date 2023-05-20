@@ -69,6 +69,7 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
     | IMiddlewareGenerator<TSource, TContext, TArgs>
   )[]
 ): GraphQLSchemaWithFragmentReplacements {
+  console.time('GM: normalisedMiddlewares')
   const normalisedMiddlewares = middlewares.map((middleware) => {
     if (isMiddlewareGenerator(middleware)) {
       return middleware.generate(schema)
@@ -76,7 +77,9 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
       return middleware
     }
   })
+  console.timeEnd('GM: normalisedMiddlewares')
 
+  console.time('GM: schemaWithMiddlewareAndFragmentReplacements')
   const schemaWithMiddlewareAndFragmentReplacements =
     normalisedMiddlewares.reduceRight(
       (
@@ -101,6 +104,7 @@ function applyMiddlewareWithOptions<TSource = any, TContext = any, TArgs = any>(
       },
       { schema, fragmentReplacements: [] },
     )
+  console.timeEnd('GM: schemaWithMiddlewareAndFragmentReplacements')
 
   const schemaWithMiddleware: GraphQLSchemaWithFragmentReplacements =
     schemaWithMiddlewareAndFragmentReplacements.schema
@@ -156,6 +160,7 @@ export function applyMiddlewareToDeclaredResolvers<
     | IMiddlewareGenerator<TSource, TContext, TArgs>
   )[]
 ): GraphQLSchemaWithFragmentReplacements {
+  console.log('GM: applyMiddlewareToDeclaredResolvers')
   console.time('applyMiddlewareWithOptions')
   const result = applyMiddlewareWithOptions(
     schema,
